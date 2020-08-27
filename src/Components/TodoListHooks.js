@@ -6,15 +6,24 @@ function TodoListHooks(){
 
     const addlist=()=>{
         setItemList([...itemList,{
+            id:itemList.length+1,
             text:item
         }])
     }
+    
     const handleSubmit=e=>{
         e.preventDefault();
         if(item==="") return;
         addlist();
         setItem("")
     }
+
+    const deleteTask=(itemListId)=>{
+        const updatedList = itemList.filter(item=>item.id!==itemListId);
+        setItemList(updatedList);
+        console.log(itemList);
+    }
+
     return(
         <div className= "container">
             <div className="row row-content">
@@ -41,12 +50,12 @@ function TodoListHooks(){
                             <CardText>
                                     <ul>
                                         {itemList.map(items=>(
-                                        <li>
+                                        <li key={items.id}>
                                             <div className="row">
-                                                <div className="col-10">
-                                                <h4 className="text">{items.text}</h4>
+                                                <div className="col-10 text">
+                                                    {items.text}
                                                 </div>
-                                                <Button className="btn-sm deletebutton">x</Button>
+                                                <Button className="btn-sm deletebutton" onClick={()=>deleteTask(items.id)}>x</Button>
                                             </div>
                                         </li>
                                         ))}  
@@ -54,29 +63,10 @@ function TodoListHooks(){
                             </CardText>
                         </CardBody>
                     </Card>
-                    {/* <Form onSubmit={handleSubmit}>
-                        <FormGroup row>
-                            <Col md={4}>
-                                <Input type="text" value={item} onChange={e=>setItem(e.target.value)}/>
-                            </Col>
-                            <Button type="submit" color="primary" className="btn-md" md={2}>Add Item</Button>
-                        </FormGroup>
-                    </Form> */}
                 </div>
             </div>
-            {/* <div className="row row-content">
-                <div className="col-12 col-md-9">
-                    <ul>
-                            {itemList.map(items=>(
-                                <li>
-                                    {items.text}
-                                </li>
-                             ))}  
-                    </ul>
-                </div>
-            </div> */}
         </div>
     )
 }
 
-export default TodoListHooks   
+export default TodoListHooks;   
